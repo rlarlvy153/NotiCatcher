@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
 
     override fun onResume() {
         super.onResume()
-        //test
+        //test2
 //        val filter = IntentFilter()
 //        filter.addAction("com.kgp.noticatcher.TEST")
 //        registerReceiver(receiver, filter)
