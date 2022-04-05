@@ -3,7 +3,9 @@ package com.kgp.noticatcher
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.kgp.noticatcher.databinding.ActivityMainBinding
+import com.kgp.noticatcher.db.entity.NotiHistory
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -12,6 +14,9 @@ import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), KoinComponent {
     lateinit var binding: ActivityMainBinding
+
+    private val mData = mutableListOf<NotiHistory>()
+
 //    val receiver = MyBroadcastReceiver()
 
     val viewModel: MainViewModel by inject() //viewmodel 제대로 inject 되는지 확인필요
@@ -21,17 +26,24 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val adapter = RoomAdapter() //어댑터 객체 만듦
+        adapter.dataList = mData //데이터 넣어줌
+        binding.recyclerView.adapter = adapter //리사이클러뷰에 어댑터 연결
+        binding.recyclerView.layoutManager = LinearLayoutManager(this) //레이아웃 매니저 연결
+
         lifecycleScope.launch {
             viewModel.getAllNotiHistory().collect {
                 // noti history 테이블에 변화가생기면
                 // 디비에 있는 모든 row가 꽂힌다.
-
+                mData.clear()
                 for (row in it) {
+                    mData.add(NotiHistory(0, row.title, row.message))
                     Timber.d("title ${row.title}, message ${row.title}")
                 }
+                adapter.notifyDataSetChanged()
             }
-
         }
+
     }
 
     override fun onResume() {
