@@ -1,16 +1,23 @@
 package com.kgp.noticatcher
 
 import android.app.Notification
-import android.content.Intent
+import android.graphics.Bitmap
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
+import androidx.core.graphics.drawable.toBitmap
 import com.kgp.noticatcher.db.NotiRepository
 import com.kgp.noticatcher.db.entity.NotiHistory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import timber.log.Timber
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileOutputStream
 
 
 class NotiListenerService : NotificationListenerService(), KoinComponent {
@@ -28,19 +35,56 @@ class NotiListenerService : NotificationListenerService(), KoinComponent {
 
         Log.d("kgpp", "================")
         Log.d("kgpp", "패키지 " + sbn.packageName)
-        Log.d("kgpp", "보낸이 " + noti.tickerText)
+        Log.d("kgpp", "보낸이 : 메시지 " + noti.tickerText)
         Log.d("kgpp", "텍스트 " + extras.getCharSequence(Notification.EXTRA_TEXT))
+        Log.d("kgpp", "보낸이 " + extras.getCharSequence(Notification.EXTRA_TITLE)) //비어서 들어오는경우 있는지 체크
 
+        //TODO 단톡방 테스트
+        val sender = extras.getCharSequence(Notification.EXTRA_TITLE) ?: ""
+        val message = extras.getCharSequence(Notification.EXTRA_TEXT) ?: ""
+        val packageName = sbn.packageName
 
         //TODO drawable 처리 어떻게 할지?
         val smallIcon = noti.smallIcon
         val largeIcon = noti.getLargeIcon()
         Log.d("kgpp", "아이콘 " + largeIcon.toString())
 
-        GlobalScope.launch {
-            val notiHistory = NotiHistory(0, noti.tickerText.toString(), extras.getCharSequence(Notification.EXTRA_TEXT).toString())
+        val icon = largeIcon ?: smallIcon
+
+
+        //TODO viewmodel, repository등으로 분리
+        CoroutineScope(Dispatchers.IO).launch {
+            val notiHistory = NotiHistory(0, sender.toString(), message.toString(), packageName)
             notoRepository.addNotiHistory(notiHistory)
-         }
+
+            val parentDir = "$filesDir/$packageName"
+            val parentsFile = File(parentDir)
+            if (!parentsFile.exists()) {
+                parentsFile.mkdirs()
+            }
+
+            if (icon != null) {
+                val iconDrawable = icon.loadDrawable(this@NotiListenerService)
+                iconDrawable?.let {
+                    try {
+                        val bitmap = it.toBitmap()
+                        val fileName = notiHistory.getIconFilePath()
+                        val iconFile = File(fileName)
+
+                        if (iconFile.exists()) {
+                            iconFile.delete()
+                        }
+                        iconFile.createNewFile()
+
+                        val outputStream = FileOutputStream(iconFile)
+                        val bufferedFileOutputStream = BufferedOutputStream(outputStream)
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bufferedFileOutputStream)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+        }
 
 
 //        val intent = Intent("com.kgp.noticatcher.TEST")
