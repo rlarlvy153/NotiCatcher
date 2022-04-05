@@ -14,6 +14,8 @@ class MainActivity : AppCompatActivity(), KoinComponent {
     lateinit var binding: ActivityMainBinding
 //    val receiver = MyBroadcastReceiver()
 
+
+
     val viewModel: MainViewModel by inject() //viewmodel 제대로 inject 되는지 확인필요
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +29,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
                 // 디비에 있는 모든 row가 꽂힌다.
 
                 for (row in it) {
-                    Timber.d("title ${row.title}, message ${row.title}")
+                    Timber.d("title ${row.sender}, message ${row.sender}")
                 }
             }
 
