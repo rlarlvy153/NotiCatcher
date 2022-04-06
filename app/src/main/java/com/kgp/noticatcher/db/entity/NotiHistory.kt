@@ -11,7 +11,9 @@ data class NotiHistory(
     @NonNull var id: Long,
     val sender: String = "",
     val message: String = "",
-    val packageName: String = ""
+    val roomName: String = "",
+    val packageName: String = "",
+    val timestamp: Long = 0
 ) {
     fun getIconFilePath() = "${NotiCatcherApp.appContext.filesDir}/$packageName/$sender.png"
 }

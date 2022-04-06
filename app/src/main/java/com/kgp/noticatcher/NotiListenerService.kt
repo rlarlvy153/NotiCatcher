@@ -38,10 +38,11 @@ class NotiListenerService : NotificationListenerService(), KoinComponent {
         Log.d("kgpp", "보낸이 : 메시지 " + noti.tickerText)
         Log.d("kgpp", "텍스트 " + extras.getCharSequence(Notification.EXTRA_TEXT))
         Log.d("kgpp", "보낸이 " + extras.getCharSequence(Notification.EXTRA_TITLE)) //비어서 들어오는경우 있는지 체크
-
+        Log.d("kgpp", "시간? " + extras.getCharSequence(Notification.EXTRA_SUB_TEXT))
         //TODO 단톡방 테스트
-        val sender = extras.getCharSequence(Notification.EXTRA_TITLE) ?: ""
-        val message = extras.getCharSequence(Notification.EXTRA_TEXT) ?: ""
+        val sender = extras.getString(Notification.EXTRA_TITLE) ?: ""
+        val message = extras.getString(Notification.EXTRA_TEXT) ?: ""
+        val roomName = extras.getString(Notification.EXTRA_SUB_TEXT) ?: ""
         val packageName = sbn.packageName
 
         //TODO drawable 처리 어떻게 할지?
@@ -54,8 +55,7 @@ class NotiListenerService : NotificationListenerService(), KoinComponent {
 
         //TODO viewmodel, repository등으로 분리
         CoroutineScope(Dispatchers.IO).launch {
-            val notiHistory = NotiHistory(0, sender.toString(), message.toString(), packageName)
-            notoRepository.addNotiHistory(notiHistory)
+            val notiHistory = notoRepository.addNotiHistory(sender, message, roomName, packageName)
 
             val parentDir = "$filesDir/$packageName"
             val parentsFile = File(parentDir)
@@ -79,6 +79,10 @@ class NotiListenerService : NotificationListenerService(), KoinComponent {
                         val outputStream = FileOutputStream(iconFile)
                         val bufferedFileOutputStream = BufferedOutputStream(outputStream)
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, bufferedFileOutputStream)
+
+                        bufferedFileOutputStream.close()
+                        outputStream.close()
+
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
