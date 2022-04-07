@@ -9,5 +9,16 @@ class NotiRepository : KoinComponent {
 
     fun getAllNotiHistory() = notiDao.getAllNotiHistory()
 
-    suspend fun addNotiHistory(history: NotiHistory) = notiDao.addNotiHistory(history)
+    suspend fun addNotiHistory(sender: String, message: String, roomName: String, packageName: String) : NotiHistory{
+        val notiHistory = NotiHistory(
+            0,
+            sender = sender,
+            message = message,
+            roomName = roomName,
+            packageName = packageName,
+            timestamp = System.currentTimeMillis()
+        )
+        notiDao.addNotiHistory(notiHistory)
+        return notiHistory
+    }
 }

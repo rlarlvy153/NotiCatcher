@@ -3,13 +3,17 @@ package com.kgp.noticatcher.db.entity
 import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.kgp.noticatcher.NotiCatcherApp
 
 @Entity(tableName = "NotiHistory")
-class NotiHistory(
+data class NotiHistory(
     @PrimaryKey(autoGenerate = true)
     @NonNull var id: Long,
-
-    val title: String = "",
+    val sender: String = "",
     val message: String = "",
-
-    )
+    val roomName: String = "",
+    val packageName: String = "",
+    val timestamp: Long = 0
+) {
+    fun getIconFilePath() = "${NotiCatcherApp.appContext.filesDir}/$packageName/$sender.png"
+}
