@@ -1,7 +1,9 @@
 package com.kgp.noticatcher
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.lifecycleScope
 import com.kgp.noticatcher.databinding.ActivityMainBinding
 import kotlinx.coroutines.flow.collect
@@ -10,10 +12,10 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
 
+
 class MainActivity : AppCompatActivity(), KoinComponent {
     lateinit var binding: ActivityMainBinding
 //    val receiver = MyBroadcastReceiver()
-
 
 
     val viewModel: MainViewModel by inject() //viewmodel 제대로 inject 되는지 확인필요
@@ -34,6 +36,17 @@ class MainActivity : AppCompatActivity(), KoinComponent {
             }
 
         }
+        if (!permissionGranted()) {
+            val intent = Intent(
+                "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"
+            )
+            startActivity(intent)
+        }
+    }
+
+    private fun permissionGranted(): Boolean {
+        val sets = NotificationManagerCompat.getEnabledListenerPackages(this)
+        return sets != null && sets.contains(packageName)
     }
 
     override fun onResume() {
