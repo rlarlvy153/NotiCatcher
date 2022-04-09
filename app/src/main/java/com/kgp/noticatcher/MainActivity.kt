@@ -15,10 +15,8 @@ import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), KoinComponent {
     lateinit var binding: ActivityMainBinding
-//    val receiver = MyBroadcastReceiver()
 
-
-    val viewModel: MainViewModel by inject() //viewmodel 제대로 inject 되는지 확인필요
+    private val viewModel: MainViewModel by inject() //viewmodel 제대로 inject 되는지 확인필요
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +32,8 @@ class MainActivity : AppCompatActivity(), KoinComponent {
                     Timber.d("title ${row.sender}, message ${row.sender}")
                 }
             }
-
         }
+
         if (!permissionGranted()) {
             val intent = Intent(
                 "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"
@@ -46,35 +44,6 @@ class MainActivity : AppCompatActivity(), KoinComponent {
 
     private fun permissionGranted(): Boolean {
         val sets = NotificationManagerCompat.getEnabledListenerPackages(this)
-        return sets != null && sets.contains(packageName)
+        return sets.contains(packageName)
     }
-
-    override fun onResume() {
-        super.onResume()
-
-//        val filter = IntentFilter()
-//        filter.addAction("com.kgp.noticatcher.TEST")
-//        registerReceiver(receiver, filter)
-
-    }
-
-//    inner class MyBroadcastReceiver: BroadcastReceiver(){
-//        override fun onReceive(context: Context?, intent: Intent?) {
-//            val small = intent?.getParcelableExtra<Icon>("small")
-//            val large = intent?.getParcelableExtra<Icon>("large")
-//
-//
-//
-//            val smallD = small?.loadDrawable(this@MainActivity)
-//            val largeD = large?.loadDrawable(this@MainActivity)
-//
-//            Log.d("kgpp","small " + smallD)
-//            Log.d("kgpp","large " + largeD)
-//
-//            binding.image.setImageDrawable(large!!.loadDrawable(this@MainActivity))
-//            Log.d("kgpp","hash " + large.toString())
-//        }
-//    }
-
-
 }
