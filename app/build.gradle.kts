@@ -41,15 +41,11 @@ android {
 }
 
 dependencies {
-
-
     implementation(Dependencies.AndroidX.CORE_KTX)
     implementation(Dependencies.AndroidX.APPCOMPAT)
     implementation(Dependencies.AndroidX.CONSTRAINT_LAYOUT)
     implementation(Dependencies.AndroidX.LIFECYCLE_RUNTIME_KTX)
-
     implementation(Dependencies.MATERIAL)
-
 
     //test 관리필요하면 buildSrc로
     testImplementation(Dependencies.Test.JUNIT)
