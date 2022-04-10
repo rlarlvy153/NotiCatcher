@@ -21,7 +21,7 @@ import java.io.FileOutputStream
 
 
 class NotiListenerService : NotificationListenerService(), KoinComponent {
-    val notoRepository: NotiRepository by inject()
+    private val notoRepository: NotiRepository by inject()
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {
         val noti = sbn.notification
