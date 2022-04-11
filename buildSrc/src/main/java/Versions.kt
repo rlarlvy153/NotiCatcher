@@ -9,6 +9,7 @@ object Versions {
     const val KOTLIN_VERSION = "1.6.10"
     const val ROOM_VERSION = "2.4.2"
     const val KOIN_VERSION = "3.1.5"
+    const val LIFECYCLE_VERSION = "2.4.1"
 }
 
 object Dependencies {
@@ -17,9 +18,9 @@ object Dependencies {
         const val CORE_KTX = "androidx.core:core-ktx:1.7.0"
         const val APPCOMPAT = "androidx.appcompat:appcompat:1.4.1"
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.1.3"
-        const val LIFECYCLE_RUNTIME_KTX = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
-        const val LIFECYCLE_LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
-        const val LIFECYCLE_VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
+        const val LIFECYCLE_RUNTIME_KTX = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE_VERSION}"
+        const val LIFECYCLE_LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIFECYCLE_VERSION}"
+        const val LIFECYCLE_VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE_VERSION}"
 
     }
 
