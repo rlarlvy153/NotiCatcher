@@ -4,11 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kgp.noticatcher.databinding.RoomItemlistBinding
-import com.kgp.noticatcher.db.entity.NotiHistory
 
-class RoomAdapter : RecyclerView.Adapter<Holder>() {
+class RoomAdapter : RecyclerView.Adapter<Holder>() {//adpater바꾸기
 
-    var dataList = mutableListOf<NotiHistory>()
+    var dataList = listOf<ChatRoom>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding =
@@ -27,8 +26,8 @@ class RoomAdapter : RecyclerView.Adapter<Holder>() {
 }
 
 class Holder(private val binding: RoomItemlistBinding) : RecyclerView.ViewHolder(binding.root) {
-    fun setData(data: NotiHistory) {
-        binding.title.text = data.title
-        //binding.message.text = data.message
+    fun setData(data: ChatRoom) {
+        binding.title.text = data.user
+        binding.message.text = data.message
     }
 }

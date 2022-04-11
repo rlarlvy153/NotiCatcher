@@ -10,6 +10,7 @@ object Versions {
     const val ROOM_VERSION = "2.4.2"
     const val KOIN_VERSION = "3.1.5"
 }
+
 object Dependencies {
 
     object AndroidX {
@@ -17,6 +18,9 @@ object Dependencies {
         const val APPCOMPAT = "androidx.appcompat:appcompat:1.4.1"
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.1.3"
         const val LIFECYCLE_RUNTIME_KTX = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
+        const val LIFECYCLE_LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
+        const val LIFECYCLE_VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
+
     }
 
     object Room {
