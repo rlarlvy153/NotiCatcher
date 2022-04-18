@@ -26,11 +26,11 @@ class MainActivity : AppCompatActivity(), KoinComponent {
     }
 
     private fun initRecyclerView() {
-        val adapter = RoomAdapter() //어댑터 객체 만듦
-        binding.recyclerView.adapter = adapter //리사이클러뷰에 어댑터 연결
-        binding.recyclerView.layoutManager = LinearLayoutManager(this) //레이아웃 매니저 연결
+        val adapter = RoomAdapter()
+        binding.RoomRecyclerView.adapter = adapter //리사이클러뷰에 어댑터 연결
+        binding.RoomRecyclerView.layoutManager = LinearLayoutManager(this) //레이아웃 매니저 연결
 
-        viewModel.mData.observe(this) {
+        viewModel.roomData.observe(this) {
             adapter.dataList = it
             adapter.notifyDataSetChanged()
         }

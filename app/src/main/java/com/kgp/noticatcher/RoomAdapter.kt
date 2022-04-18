@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kgp.noticatcher.databinding.RoomItemlistBinding
 
-class RoomAdapter : RecyclerView.Adapter<Holder>() {//adpater바꾸기
+class RoomAdapter : RecyclerView.Adapter<Holder>() {//요즘은 listadapter많이 쓰기때문에 나중에 바꿔보기
 
     var dataList = listOf<ChatRoom>()
 
