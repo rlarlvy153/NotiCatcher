@@ -31,8 +31,10 @@ class Holder(private val binding: RoomItemlistBinding) : RecyclerView.ViewHolder
     fun setData(data: ChatRoom) {
         binding.title.text = data.user
         binding.message.text = data.message
-        val iconFile = File(data.imageFile)
-        val bitmap = BitmapFactory.decodeFile(iconFile.absolutePath)
-        binding.profileImage.setImageBitmap(bitmap)
+        val iconFile = File(data.imageFilePath)
+        if (iconFile.exists()) {
+            val bitmap = BitmapFactory.decodeFile(iconFile.absolutePath)
+            binding.profileImage.setImageBitmap(bitmap)
+        }
     }
 }

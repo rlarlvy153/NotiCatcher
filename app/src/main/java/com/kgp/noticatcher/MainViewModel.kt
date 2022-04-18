@@ -19,10 +19,10 @@ class MainViewModel : ViewModel(), KoinComponent {
     private fun getAllNotiHistory(): Flow<List<NotiHistory>> = notiRepository.getAllNotiHistory()
 
     init {
-        convertData()
+        subscribeData()
     }
 
-    private fun convertData() {
+    private fun subscribeData() {
         viewModelScope.launch {
             getAllNotiHistory().collect {
                 var temp = ArrayList<ChatRoom>()
@@ -32,7 +32,7 @@ class MainViewModel : ViewModel(), KoinComponent {
                         ChatRoom(
                             user = row.sender,
                             message = row.message,
-                            imageFile = fileName
+                            imageFilePath = fileName
                         )
                     )
                 }
