@@ -47,6 +47,10 @@ dependencies {
     implementation(Dependencies.AndroidX.LIFECYCLE_RUNTIME_KTX)
     implementation(Dependencies.MATERIAL)
 
+    //livedata 사용
+    implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA_KTX)
+    implementation(Dependencies.AndroidX.LIFECYCLE_VIEWMODEL_KTX)
+
     //test 관리필요하면 buildSrc로
     testImplementation(Dependencies.Test.JUNIT)
     androidTestImplementation(Dependencies.Test.TEST_EXT)
