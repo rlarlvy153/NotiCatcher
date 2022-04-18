@@ -14,22 +14,29 @@ import org.koin.core.component.inject
 class MainViewModel : ViewModel(), KoinComponent {
     private val notiRepository: NotiRepository by inject()
 
-    val mData = MutableLiveData<List<ChatRoom>>()
+    val roomData = MutableLiveData<List<ChatRoom>>()
 
     private fun getAllNotiHistory(): Flow<List<NotiHistory>> = notiRepository.getAllNotiHistory()
 
     init {
-        fetchData()
+        subscribeData()
     }
 
-    private fun fetchData() {
+    private fun subscribeData() {
         viewModelScope.launch {
             getAllNotiHistory().collect {
                 var temp = ArrayList<ChatRoom>()
                 for (row in it) {
-                    temp.add(ChatRoom(user = row.sender, message = row.message))
+                    val fileName = row.getIconFilePath()
+                    temp.add(
+                        ChatRoom(
+                            user = row.sender,
+                            message = row.message,
+                            imageFilePath = fileName
+                        )
+                    )
                 }
-                mData.postValue(temp)
+                roomData.postValue(temp)
             }
         }
     }
