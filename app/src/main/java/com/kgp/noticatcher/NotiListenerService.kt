@@ -2,19 +2,17 @@ package com.kgp.noticatcher
 
 import android.app.Notification
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
-import android.util.Log
 import androidx.core.graphics.drawable.toBitmap
 import com.kgp.noticatcher.db.NotiRepository
-import com.kgp.noticatcher.db.entity.NotiHistory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import timber.log.Timber
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -61,7 +59,13 @@ class NotiListenerService : NotificationListenerService(), KoinComponent {
                 val iconDrawable = icon.loadDrawable(this@NotiListenerService)
                 iconDrawable?.let {
                     try {
-                        val bitmap = it.toBitmap()
+
+                        val iconBitmap = it.toBitmap()
+                        val saveBitmap = Bitmap.createBitmap(iconBitmap.width, iconBitmap.height, iconBitmap.config)
+                        saveBitmap.eraseColor(Color.WHITE)
+                        val canvas = Canvas(saveBitmap)
+                        canvas.drawBitmap(iconBitmap, 0f, 0f, null)
+
                         val fileName = notiHistory.iconFilePath
                         val iconFile = File(fileName)
 
@@ -72,7 +76,7 @@ class NotiListenerService : NotificationListenerService(), KoinComponent {
 
                         val outputStream = FileOutputStream(iconFile)
                         val bufferedFileOutputStream = BufferedOutputStream(outputStream)
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bufferedFileOutputStream)
+                        saveBitmap.compress(Bitmap.CompressFormat.JPEG, 75, bufferedFileOutputStream)
 
                         bufferedFileOutputStream.close()
                         outputStream.close()

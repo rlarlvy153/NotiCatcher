@@ -45,7 +45,7 @@ class MainViewModel : ViewModel(), KoinComponent {
             NotiCatcherApp.appContext.filesDir.listFiles()?.let { files ->
                 files
                     .filter {
-                        it.extension == "png"
+                        it.extension == NotiHistory.NOTI_ICON_EXTENSION
                     }
                     .filter { //쿼리 더 최적화 될듯
                         val id = it.nameWithoutExtension.toLongOrNull()
