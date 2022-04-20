@@ -7,7 +7,12 @@ import org.koin.core.component.inject
 class NotiRepository : KoinComponent {
     private val notiDao: NotiDao by inject()
 
-    fun getAllNotiHistory() = notiDao.getAllNotiHistory()
+    fun getAllNotiHistoryAsFlow() = notiDao.getAllNotiHistoryAsFlow()
+    fun existInNoti(id: Long): Boolean {
+        val noti = notiDao.findNotiHistoryById(id)
+
+        return noti?.id == id
+    }
 
     suspend fun addNotiHistory(sender: String, message: String, roomName: String, packageName: String): NotiHistory {
         val notiHistory = NotiHistory(

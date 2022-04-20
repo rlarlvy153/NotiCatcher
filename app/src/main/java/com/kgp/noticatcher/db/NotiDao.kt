@@ -9,7 +9,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NotiDao {
     @Query("SELECT * FROM NotiHistory ORDER BY id")
-    fun getAllNotiHistory(): Flow<List<NotiHistory>>
+    fun getAllNotiHistoryAsFlow(): Flow<List<NotiHistory>>
+
+    @Query("SELECT * FROM NotiHistory WHERE id=:id")
+    fun findNotiHistoryById(id: Long): NotiHistory?
 
     @Insert
     suspend fun addNotiHistory(history: NotiHistory): Long

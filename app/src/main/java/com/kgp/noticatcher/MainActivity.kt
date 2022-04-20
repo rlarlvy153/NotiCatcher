@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         initRecyclerView()
 
         checkPermission()
-
     }
 
     private fun initRecyclerView() {
@@ -48,5 +47,11 @@ class MainActivity : AppCompatActivity(), KoinComponent {
     private fun permissionGranted(): Boolean {
         val sets = NotificationManagerCompat.getEnabledListenerPackages(this)
         return sets.contains(packageName)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        viewModel.clearUselessIcon()
     }
 }
