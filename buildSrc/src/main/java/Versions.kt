@@ -3,7 +3,7 @@ object Versions {
     const val MIN_SDK_VERSION = 24
     const val TARGET_SDK_VERSION = 31
     const val APP_VERSION_CODE = 1
-    const val APP_VERSION_NAME = "1.0"
+    const val APP_VERSION_NAME = "0.0.1"
 
     const val ANDROID_GRADLE_PLUGIN = "7.0.4"
     const val KOTLIN_VERSION = "1.6.10"
