@@ -15,5 +15,6 @@ data class NotiHistory(
     val packageName: String = "",
     val timestamp: Long = 0
 ) {
-    fun getIconFilePath() = "${NotiCatcherApp.appContext.filesDir}/$packageName/$sender.png"
+    val iconFilePath
+        get() = "${NotiCatcherApp.appContext.filesDir}/$packageName/$sender-$id.png"
 }

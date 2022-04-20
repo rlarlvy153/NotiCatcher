@@ -12,5 +12,5 @@ interface NotiDao {
     fun getAllNotiHistory(): Flow<List<NotiHistory>>
 
     @Insert
-    suspend fun addNotiHistory(history: NotiHistory)
+    suspend fun addNotiHistory(history: NotiHistory): Long
 }

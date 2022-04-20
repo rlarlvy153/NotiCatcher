@@ -68,7 +68,7 @@ class NotiListenerService : NotificationListenerService(), KoinComponent {
                 iconDrawable?.let {
                     try {
                         val bitmap = it.toBitmap()
-                        val fileName = notiHistory.getIconFilePath()
+                        val fileName = notiHistory.iconFilePath
                         val iconFile = File(fileName)
 
                         if (iconFile.exists()) {

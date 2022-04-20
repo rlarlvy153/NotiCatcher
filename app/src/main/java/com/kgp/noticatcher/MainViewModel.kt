@@ -25,18 +25,14 @@ class MainViewModel : ViewModel(), KoinComponent {
     private fun subscribeData() {
         viewModelScope.launch {
             getAllNotiHistory().collect {
-                var temp = ArrayList<ChatRoom>()
-                for (row in it) {
-                    val fileName = row.getIconFilePath()
-                    temp.add(
-                        ChatRoom(
-                            user = row.sender,
-                            message = row.message,
-                            imageFilePath = fileName
-                        )
+                val chatroomDatas = it.map { notiHistory ->
+                    ChatRoom(
+                        user = notiHistory.sender,
+                        message = notiHistory.message,
+                        imageFilePath = notiHistory.iconFilePath
                     )
                 }
-                roomData.postValue(temp)
+                roomData.postValue(chatroomDatas)
             }
         }
     }
